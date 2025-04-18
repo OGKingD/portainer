@@ -1,0 +1,29 @@
+# Specify the version of Docker Compose file format
+version: '3.9'
+
+# Define the services that make up your application
+services:
+  # Portainer service definition
+  portainer:
+    # The Docker image to use for this container
+    image: portainer/portainer-ce:latest
+    # Name of the container, instead of a randomly generated one
+    container_name: portainer
+    # Restart policy (restart unless manually stopped)
+    restart: unless-stopped
+
+    # Ports to expose from the container to the host machine
+    ports:
+      - "9000:9000"  # Map port 9000 on the host to port 9000 in the container
+
+    # Volumes to persist data and share files between the host and the container
+    volumes:
+      # Mount the Docker socket from the host to allow Portainer to manage Docker
+      - /var/run/docker.sock:/var/run/docker.sock
+      # Mount the local directory ./portainer_data to persist Portainer's data
+      - ./portainer_data:/portainer_data
+
+# Define named volumes to persist data
+volumes:
+  portainer_data:
+  # This named volume will persist Portainer data even if the container is deleted
